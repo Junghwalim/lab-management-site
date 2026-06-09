@@ -26,6 +26,11 @@ interface Equipment {
 const EquipmentDetails = ({ equipmentData }: { equipmentData: Equipment }) => {
   const [isCopied, setIsCopied] = useState(false);
 
+  const openExternalLink = (url?: string) => {
+    if (!url) return;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
   const handleShare = async () => {
     if (navigator.share) {
       try {
@@ -37,16 +42,21 @@ const EquipmentDetails = ({ equipmentData }: { equipmentData: Equipment }) => {
         console.error('Share failed:', err);
       }
     } else {
-      const textArea = document.createElement("textarea");
-      textArea.value = window.location.href;
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand("copy");
-      textArea.remove();
-      
-      setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 2000);
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
+      } catch (err) {
+        console.error('Copy failed:', err);
+      }
     }
+  };
+
+  const renderDetailValue = (value: React.ReactNode) => {
+    if (typeof value === 'string' && value.trim() === '') {
+      return '-';
+    }
+    return value;
   };
 
   return (
@@ -95,9 +105,7 @@ const EquipmentDetails = ({ equipmentData }: { equipmentData: Equipment }) => {
           <button 
             // 장비 데이터에 추가된 개별 링크(reservationLink)로 이동하도록 수정되었습니다.
             onClick={() => {
-              if (equipmentData.reservationLink) {
-                window.open(equipmentData.reservationLink, '_blank');
-              }
+              openExternalLink(equipmentData.reservationLink);
             }}
             className="flex items-center gap-2 bg-[#3498db] hover:bg-[#2980b9] text-white px-5 py-2.5 rounded text-sm font-medium transition-colors"
           >
@@ -127,18 +135,18 @@ const EquipmentDetails = ({ equipmentData }: { equipmentData: Equipment }) => {
           <div className="border-t-2 border-gray-800">
             {equipmentData.details.map((detail, index) => (
               <div 
-                key={index} 
+                key={`${detail.label}-${index}`} 
                 className="flex flex-col md:flex-row border-b border-gray-200 py-4 hover:bg-gray-50 transition-colors"
               >
                 <div className="w-full md:w-[220px] shrink-0 text-gray-600 font-medium mb-1 md:mb-0 flex items-center md:px-4 text-sm md:text-base">
                   {detail.label}
                 </div>
                 <div className="flex-1 flex items-center text-gray-900 md:px-4 text-sm md:text-base">
-                  {detail.value}
+                  {renderDetailValue(detail.value)}
                   
                   {detail.hasAction && (
                     <button 
-                      onClick={() => detail.actionUrl && window.open(detail.actionUrl, '_blank')}
+                      onClick={() => openExternalLink(detail.actionUrl)}
                       className="ml-3 inline-flex items-center gap-1 text-sm text-gray-600 border border-gray-300 px-2 py-1 rounded bg-white hover:bg-gray-50"
                     >
                       {detail.actionText}
