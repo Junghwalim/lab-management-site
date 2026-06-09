@@ -66,11 +66,11 @@ const EquipmentDetails = ({ equipmentData }: { equipmentData: Equipment }) => {
         {/* Top Section */}
         <div className="p-6 md:p-8 flex flex-col md:flex-row gap-8">
           <div className="w-full md:w-[320px] shrink-0">
-            <div className="aspect-[4/3] bg-[#EDF4FB] border border-[#D4E1EE] rounded overflow-hidden relative">
+            <div className="aspect-[4/3] bg-white border border-[#D4E1EE] rounded overflow-hidden relative">
               <img 
                 src={equipmentData.imageUrl} 
                 alt={equipmentData.title} 
-                className="w-full h-full object-contain bg-gray-100"
+                className="w-full h-full object-contain"
               />
             </div>
           </div>
