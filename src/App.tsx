@@ -60,13 +60,13 @@ const EquipmentDetails = ({ equipmentData }: { equipmentData: Equipment }) => {
   };
 
   return (
-    <div className="bg-gray-100 p-4 md:p-8 font-sans text-gray-800 print:bg-white print:p-0">
-      <div className="max-w-5xl mx-auto bg-white shadow-sm border border-gray-200 print:shadow-none print:border-none">
+    <div className="bg-[#F4F8FC] p-4 md:p-8 font-sans text-[#0F2740] print:bg-white print:p-0">
+      <div className="max-w-5xl mx-auto bg-white shadow-sm border border-[#C7D8E8] print:shadow-none print:border-none">
         
         {/* Top Section */}
         <div className="p-6 md:p-8 flex flex-col md:flex-row gap-8">
           <div className="w-full md:w-[320px] shrink-0">
-            <div className="aspect-[4/3] bg-gray-50 border border-gray-200 rounded overflow-hidden relative">
+            <div className="aspect-[4/3] bg-[#EDF4FB] border border-[#D4E1EE] rounded overflow-hidden relative">
               <img 
                 src={equipmentData.imageUrl} 
                 alt={equipmentData.title} 
@@ -77,37 +77,37 @@ const EquipmentDetails = ({ equipmentData }: { equipmentData: Equipment }) => {
 
           {/* Basic Info */}
           <div className="flex-1 flex flex-col justify-start">
-            <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-6">
+            <h1 className="text-xl md:text-2xl font-bold text-[#003B5C] mb-6">
               {equipmentData.title}
             </h1>
             
             <div className="grid grid-cols-[180px_1fr] gap-y-3 text-sm md:text-base">
-              <div className="text-gray-500 font-medium">Facility Reg. No.</div>
-              <div className="text-gray-900">{equipmentData.registrationNo || '-'}</div>
+              <div className="text-[#4F6680] font-medium">Facility Reg. No.</div>
+              <div className="text-[#0F2740]">{equipmentData.registrationNo || '-'}</div>
               
-              <div className="text-gray-500 font-medium">Equipment Type</div>
-              <div className="text-gray-900">{equipmentData.equipmentType}</div>
+              <div className="text-[#4F6680] font-medium">Equipment Type</div>
+              <div className="text-[#0F2740]">{equipmentData.equipmentType}</div>
               
-              <div className="text-gray-500 font-medium">Installation Location</div>
-              <div className="text-gray-900">{equipmentData.installationLocation}</div>
+              <div className="text-[#4F6680] font-medium">Installation Location</div>
+              <div className="text-[#0F2740]">{equipmentData.installationLocation}</div>
               
-              <div className="text-gray-500 font-medium">Manager</div>
-              <div className="text-gray-900">{equipmentData.manager || '-'}</div>
+              <div className="text-[#4F6680] font-medium">Manager</div>
+              <div className="text-[#0F2740]">{equipmentData.manager || '-'}</div>
               
-              <div className="text-gray-500 font-medium">Last Modified</div>
-              <div className="text-gray-900">{equipmentData.lastModified}</div>
+              <div className="text-[#4F6680] font-medium">Last Modified</div>
+              <div className="text-[#0F2740]">{equipmentData.lastModified}</div>
             </div>
           </div>
         </div>
 
         {/* Action Buttons (인쇄 및 PDF 저장 시에는 숨김 처리: print:hidden) */}
-        <div className="print:hidden px-6 md:px-8 pb-6 flex flex-wrap gap-3 border-b border-gray-200">
+        <div className="print:hidden px-6 md:px-8 pb-6 flex flex-wrap gap-3 border-b border-[#D4E1EE]">
           <button 
             // 장비 데이터에 추가된 개별 링크(reservationLink)로 이동하도록 수정되었습니다.
             onClick={() => {
               openExternalLink(equipmentData.reservationLink);
             }}
-            className="flex items-center gap-2 bg-[#3498db] hover:bg-[#2980b9] text-white px-5 py-2.5 rounded text-sm font-medium transition-colors"
+            className="flex items-center gap-2 bg-[#2774AE] hover:bg-[#003B5C] text-white px-5 py-2.5 rounded text-sm font-medium transition-colors"
           >
             <MessageSquare size={16} />
             Go to Reservation & Consultation
@@ -115,15 +115,15 @@ const EquipmentDetails = ({ equipmentData }: { equipmentData: Equipment }) => {
 
           <button 
             onClick={handleShare}
-            className="flex items-center gap-2 bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 px-4 py-2.5 rounded text-sm transition-colors w-[140px] justify-center"
+            className="flex items-center gap-2 bg-white hover:bg-[#EDF4FB] text-[#003B5C] border border-[#C7D8E8] px-4 py-2.5 rounded text-sm transition-colors w-[140px] justify-center"
           >
-            {isCopied ? <Check size={16} className="text-green-600" /> : <Share2 size={16} />}
+            {isCopied ? <Check size={16} className="text-[#B38700]" /> : <Share2 size={16} />}
             {isCopied ? "Link Copied!" : "Share Page"}
           </button>
 
           <button 
             onClick={() => window.print()}
-            className="flex items-center gap-2 bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 px-4 py-2.5 rounded text-sm transition-colors"
+            className="flex items-center gap-2 bg-white hover:bg-[#EDF4FB] text-[#003B5C] border border-[#C7D8E8] px-4 py-2.5 rounded text-sm transition-colors"
           >
             <FileDown size={16} />
             Download PDF
@@ -132,22 +132,22 @@ const EquipmentDetails = ({ equipmentData }: { equipmentData: Equipment }) => {
 
         {/* Detailed Information Table */}
         <div className="px-6 md:px-8 pb-8 pt-4 print:px-0">
-          <div className="border-t-2 border-gray-800">
+          <div className="border-t-2 border-[#003B5C]">
             {equipmentData.details.map((detail, index) => (
               <div 
                 key={`${detail.label}-${index}`} 
-                className="flex flex-col md:flex-row border-b border-gray-200 py-4 hover:bg-gray-50 transition-colors"
+                className="flex flex-col md:flex-row border-b border-[#DCE7F1] py-4 hover:bg-[#F5F9FD] transition-colors"
               >
-                <div className="w-full md:w-[220px] shrink-0 text-gray-600 font-medium mb-1 md:mb-0 flex items-center md:px-4 text-sm md:text-base">
+                <div className="w-full md:w-[220px] shrink-0 text-[#4F6680] font-medium mb-1 md:mb-0 flex items-center md:px-4 text-sm md:text-base">
                   {detail.label}
                 </div>
-                <div className="flex-1 flex items-center text-gray-900 md:px-4 text-sm md:text-base">
+                <div className="flex-1 flex items-center text-[#0F2740] md:px-4 text-sm md:text-base">
                   {renderDetailValue(detail.value)}
                   
                   {detail.hasAction && (
                     <button 
                       onClick={() => openExternalLink(detail.actionUrl)}
-                      className="ml-3 inline-flex items-center gap-1 text-sm text-gray-600 border border-gray-300 px-2 py-1 rounded bg-white hover:bg-gray-50"
+                      className="ml-3 inline-flex items-center gap-1 text-sm text-[#003B5C] border border-[#C7D8E8] px-2 py-1 rounded bg-white hover:bg-[#EDF4FB]"
                     >
                       {detail.actionText}
                       <ChevronRight size={14} />
@@ -638,16 +638,16 @@ export default function App() {
   const currentEquipment = equipmentList.find(eq => eq.id === selectedId) || equipmentList[0];
 
   return (
-    <div className="min-h-screen bg-gray-100 print:bg-white flex flex-col md:flex-row w-full">
+    <div className="min-h-screen bg-[#EAF1F8] print:bg-white flex flex-col md:flex-row w-full">
       {/* 1. 모바일용 드롭다운 메뉴 (화면이 작을 때만 상단에 나타남, 인쇄 시 숨김) */}
-      <div className="md:hidden print:hidden bg-white p-4 border-b border-gray-200 sticky top-0 z-10 shadow-sm w-full">
-        <label className="block text-xs font-bold text-gray-500 mb-2 uppercase tracking-wider">
+      <div className="md:hidden print:hidden bg-[#003B5C] p-4 border-b border-[#002844] sticky top-0 z-10 shadow-sm w-full">
+        <label className="block text-xs font-bold text-[#D8E6F3] mb-2 uppercase tracking-wider">
           Select Equipment
         </label>
         <select
           value={selectedId}
           onChange={(e) => setSelectedId(e.target.value)}
-          className="w-full border border-gray-300 rounded-md p-3 text-gray-800 bg-white font-medium focus:outline-none focus:ring-2 focus:ring-[#3498db]"
+          className="w-full border border-[#C7D8E8] rounded-md p-3 text-[#0F2740] bg-white font-medium focus:outline-none focus:ring-2 focus:ring-[#FFD100]"
         >
           {equipmentList.map(eq => (
             <option key={eq.id} value={eq.id}>{eq.title}</option>
@@ -656,20 +656,20 @@ export default function App() {
       </div>
 
       {/* 2. PC용 사이드바 메뉴 (화면이 클 때만 왼쪽에 고정됨, 인쇄 시 숨김) */}
-      <div className="hidden md:flex print:hidden flex-col w-64 lg:w-72 bg-white border-r border-gray-200 h-screen sticky top-0 overflow-y-auto shrink-0">
-        <div className="p-6 border-b border-gray-200 bg-gray-50">
-          <h2 className="font-bold text-gray-800 text-lg">Equipment List</h2>
-          <p className="text-sm text-gray-500 mt-1">Total {equipmentList.length} items</p>
+      <div className="hidden md:flex print:hidden flex-col w-64 lg:w-72 bg-[#F7FAFD] border-r border-[#C7D8E8] h-screen sticky top-0 overflow-y-auto shrink-0">
+        <div className="p-6 border-b border-[#C7D8E8] bg-[#003B5C]">
+          <h2 className="font-bold text-white text-lg">Equipment List</h2>
+          <p className="text-sm text-[#FFD100] mt-1">Total {equipmentList.length} items</p>
         </div>
         <div className="flex flex-col p-3 gap-1">
           {equipmentList.map(eq => (
             <button
               key={eq.id}
               onClick={() => setSelectedId(eq.id)}
-              className={`text-left px-4 py-3 rounded-lg transition-all text-sm font-medium ${
+              className={`text-left px-4 py-3 rounded-lg transition-all text-sm font-medium border-l-4 ${
                 selectedId === eq.id 
-                  ? 'bg-[#3498db] text-white shadow-md' // 선택된 장비는 파란색으로 눈에 띄게 표시
-                  : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' // 선택되지 않은 장비
+                  ? 'bg-[#2774AE] text-white shadow-md border-[#FFD100]' // 선택된 장비는 파란색으로 눈에 띄게 표시
+                  : 'text-[#003B5C] border-transparent hover:bg-[#E8F1F8] hover:text-[#002844]' // 선택되지 않은 장비
               }`}
             >
               {eq.title}
