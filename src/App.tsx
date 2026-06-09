@@ -172,7 +172,7 @@ export default function App() {
       id: "eq-001",
       title: "Universal Testing Machine (UTM)",
       reservationLink: "https://docs.google.com/spreadsheets/d/1XFGEF8JUsyux_otqzuMrG7StoY5sHcDhni5bf3rF4ds/edit?gid=0#gid=0", // 👈 1번 장비만의 구글 폼 주소
-      imageUrl: "/lab-management-site/Universal-Testing-Machine.JPEG",
+      imageUrl: "https://raw.githubusercontent.com/Junghwalim/lab-management-site/main/public/Universal-Testing-Machine.JPEG",
       registrationNo: "",
       equipmentType: "Mechanical Testing",
       installationLocation: "CHS33-009",
