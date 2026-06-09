@@ -70,7 +70,7 @@ const EquipmentDetails = ({ equipmentData }: { equipmentData: Equipment }) => {
               <img 
                 src={equipmentData.imageUrl} 
                 alt={equipmentData.title} 
-                className="w-full h-full object-contain"
+                className="w-full h-full object-contain bg-gray-100"
               />
             </div>
           </div>
