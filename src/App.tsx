@@ -255,7 +255,7 @@ export default function App() {
       id: "eq-003",
       title: "Micro Vickers Hardness Tester", // 세 번째 장비 이름
       reservationLink: "https://docs.google.com/spreadsheets/d/1dW4IFfmej9GKyFNyh0Nq_ppU3gwgqgHtScnSsQfoqqs/edit?gid=0#gid=0", // 👈 3번 장비 구글 폼 주소
-      imageUrl: "https://raw.github.com/Junghwalim/lab-management-site/blob/main/public/Micro-Vickers-Hardness-Tester.JPEG",
+      imageUrl: "https://raw.githubusercontent.com/Junghwalim/lab-management-site/main/public/Micro-Vickers-Hardness-Tester.JPEG",
       registrationNo: "NFEC-2026-01-000111",
       equipmentType: "Surface Analysis",
       installationLocation: "CHS33-009",
@@ -289,7 +289,7 @@ export default function App() {
       id: "eq-004",
       title: "Fourier Transform Infrared (FT-IR)",
       reservationLink: "https://docs.google.com/spreadsheets/d/1TWtl0aAY1Mh3ffQFwRLK4huIUmXcUsFo_NG_pcshpo4/edit?gid=0#gid=0", // 👈 4번 장비 구글 폼 주소
-      imageUrl: "https://raw.github.com/Junghwalim/lab-management-site/blob/main/public/FT-IR.JPEG",
+      imageUrl: "https://raw.githubusercontent.com/Junghwalim/lab-management-site/main/public/FT-IR.JPEG",
       registrationNo: "",
       equipmentType: "Chemical Analysis",
       installationLocation: "CHS33-009",
