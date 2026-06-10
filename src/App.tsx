@@ -297,7 +297,7 @@ export default function App() {
       lastModified: "06-08-2026",
       details: [
         { label: "Manufacturer | Model", value: "Thermo Scientific | Everest Diamond ATR Accessory for the Nicolet Summit Spectrometer", hasAction: true, actionText: "View Info", actionUrl: "https://www.thermofisher.com/order/catalog/product/IQLAADGAAGFAJAMBKN" },
-        { label: "Introduction", value: "" },
+        { label: "Introduction", value: "High-performance Nicolet Summit FTIR spectrometer equipped with the monolithic Everest Diamond ATR accessory for rapid and non-destructive chemical identification without sample preparation." },
         { label: "Specifications", value: (
           <ul className="list-disc pl-5 space-y-1">
             <li>Crystal Type: Diamond(AR-coated)</li>
@@ -327,40 +327,50 @@ export default function App() {
     },
     {
       id: "eq-005",
-      title: "High-Performance Liquid Chromatography (HPLC)",
+      title: "Optical Tensiometer",
       reservationLink: "https://forms.gle/LINK_EQ_005", // 👈 5번 장비 구글 폼 주소
-      imageUrl: "https://images.unsplash.com/photo-1579154204601-01588f351e67?q=80&w=1000&auto=format&fit=crop",
-      registrationNo: "NFEC-2026-03-000223",
-      equipmentType: "Analytical Equipment",
-      installationLocation: "Room 201, Chemistry Lab",
-      manager: "Dr. Marie Curie",
+      imageUrl: "https://raw.githubusercontent.com/Junghwalim/lab-management-site/main/public/Optical-Tensiometers.JPEG",
+      registrationNo: "",
+      equipmentType: "Surface Analysis",
+      installationLocation: "CHS33-009",
+      manager: "",
       lastModified: "2026-06-08",
       details: [
-        { label: "Manufacturer | Model", value: "Agilent | 1260 Infinity II", hasAction: true, actionText: "View Info", actionUrl: "https://www.agilent.com" },
-        { label: "Introduction", value: "Reliable and robust HPLC system for routine analysis." },
-        { label: "Specifications", value: "Max Pressure: 600 bar. Flow range: 0.05 to 5 mL/min." },
-        { label: "Applications", value: "Pharmaceuticals, food safety, environmental analysis." },
-        { label: "Sample Preparation", value: "Filter samples through 0.22 µm syringe filter." },
-        { label: "Precautions", value: "Use HPLC-grade solvents only. Degas all buffers." }
+        { label: "Manufacturer | Model", value: "Biolin Scientific | Attension Theta Lite", hasAction: true, actionText: "View Info", actionUrl: "https://www.biolinscientific.com/attension/optical-tensiometers/theta-lite" },
+        { label: "Introduction", value: "Compact and user-friendly optical tensiometer for characterizing surface properties such as contact angle, surface free energy, and interfacial tension." },
+        { label: "Specifications", value: "Camera: 1.3 MP USB 3.0 digital camera, LED light source. Measuring range: 0 to 180° contact angle, 0.01 to 2000 mN/m surface tension." },
+        { label: "Applications", value: "Wettability and adhesion studies, surface free energy calculation, cleanliness monitoring, and quality control in packaging/coatings." },
+        { label: "Sample Preparation", value: "Substrate surfaces must be thoroughly clean, flat, and dust-free. Prepare standard probe liquids." },
+        { label: "Precautions", value: (
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Training Required Before Use</li>
+            <li>A personal flash drive is required to save and transfer data</li>
+          </ul>
+        ) }
       ]
     },
     {
       id: "eq-006",
-      title: "Nuclear Magnetic Resonance (NMR) Spectrometer",
+      title: "Micro Tensile Tester",
       reservationLink: "https://forms.gle/LINK_EQ_006", // 👈 6번 장비 구글 폼 주소
-      imageUrl: "https://images.unsplash.com/photo-1581093450021-4a7360e9a6b5?q=80&w=1000&auto=format&fit=crop",
-      registrationNo: "NFEC-2026-04-000334",
-      equipmentType: "Analytical Equipment",
-      installationLocation: "Room 105, NMR Center",
-      manager: "Dr. Richard Ernst",
+      imageUrl: "https://raw.githubusercontent.com/Junghwalim/lab-management-site/main/public/Micro-Tensile-Tester.JPEG",
+      registrationNo: "",
+      equipmentType: "Mechanical Testing",
+      installationLocation: "CHS33-009",
+      manager: "",
       lastModified: "2026-06-08",
       details: [
-        { label: "Manufacturer | Model", value: "Bruker | AVANCE NEO 600", hasAction: false },
-        { label: "Introduction", value: "High-resolution NMR spectrometer for structural elucidation." },
-        { label: "Specifications", value: "Frequency: 600 MHz. Magnet: 14.1 Tesla." },
-        { label: "Applications", value: "Protein structure, organic synthesis confirmation." },
-        { label: "Sample Preparation", value: "Dissolve sample in appropriate deuterated solvent." },
-        { label: "Precautions", value: "Strictly adhere to the 5 Gauss safety line." }
+        { label: "Manufacturer | Model", value: "Mecmesin | CFG+ 500N", hasAction: true, actionText: "View Info", actionUrl: "https://www.mecmesin.com" },
+        { label: "Introduction", value: "Compact digital force gauge designed for basic tension and compression testing up to 500 N." },
+        { label: "Specifications", value: "Capacity: 500 N. Resolution: 0.5 N. Accuracy: ±0.5% of full scale. RS232 data output." },
+        { label: "Applications", value: "Handheld tensile and compression measurements, basic quality control tests, and integration with manual/motorized test stands." },
+        { label: "Sample Preparation", value: "Ensure sample shape is compatible with tension hooks, extension rods, or compression plates. Properly align sample axis." },
+        { label: "Precautions", value: (
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Training Required Before Use</li>
+            <li>A personal flash drive is required to save and transfer data</li>
+          </ul>
+        ) }
       ]
     },
     {
