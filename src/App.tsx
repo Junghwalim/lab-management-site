@@ -1157,7 +1157,7 @@ export default function App() {
       <div className="hidden md:flex print:hidden flex-col w-64 lg:w-72 bg-[#F7FAFD] border-r border-[#C7D8E8] h-screen sticky top-0 overflow-y-auto shrink-0">
         <div className="p-6 border-b border-[#C7D8E8] bg-[#003B5C]">
           <h2 className="font-bold text-white text-lg">Restorative Lab</h2>
-          <p className="text-sm text-[#FFD100] mt-1">Total {equipmentList.length} items</p>
+          <p className="text-sm text-[#FFD100] mt-1">Preview Deployment</p>
         </div>
         <div className="flex flex-col p-3 gap-1">
           {topItems.map(eq => (
