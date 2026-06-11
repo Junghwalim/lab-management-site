@@ -1181,7 +1181,7 @@ export default function App() {
             <button
               key={eq.id}
               onClick={() => setSelectedId(eq.id)}
-              className={`text-left px-4 py-2.5 rounded-lg transition-all text-sm font-medium border-l-4 mb-1 ${selectedId === eq.id
+              className={`text-left px-4 py-2.5 rounded-lg transition-all text-sm font-bold border-l-4 mb-1 ${selectedId === eq.id
                 ? 'bg-[#2774AE] text-white shadow-md border-[#FFD100]'
                 : 'bg-[#EDF4FB] text-[#003B5C] border-l-4 border-[#2774AE] hover:bg-[#E8F1F8] hover:text-[#002844]'
                 }`}
@@ -1193,10 +1193,10 @@ export default function App() {
           {/* Analytical Systems */}
           <button
             onClick={() => setAnalyticalExpanded(!analyticalExpanded)}
-            className="w-full text-left text-[11px] font-extrabold text-[#003B5C] px-3 py-1.5 bg-[#EDF4FB] border-l-4 border-[#2774AE] rounded-r-md uppercase tracking-widest select-none mb-2 mt-1 shadow-sm flex items-center justify-between gap-1.5 hover:bg-[#E2EFFB] transition-colors focus:outline-none"
+            className="w-full text-left px-4 py-2.5 rounded-lg transition-all text-sm font-bold border-l-4 mb-1 bg-[#EDF4FB] text-[#003B5C] border-[#2774AE] hover:bg-[#E8F1F8] hover:text-[#002844] shadow-sm flex items-center justify-between gap-1.5 select-none focus:outline-none"
           >
             <span>📊 Analytical Systems</span>
-            {analyticalExpanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+            {analyticalExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
           </button>
           {analyticalExpanded && analyticalSystems.map(eq => (
             <button
@@ -1214,10 +1214,10 @@ export default function App() {
           {/* Lab Utilities */}
           <button
             onClick={() => setLabExpanded(!labExpanded)}
-            className="w-full text-left text-[11px] font-extrabold text-[#003B5C] px-3 py-1.5 bg-[#EDF4FB] border-l-4 border-[#2774AE] rounded-r-md uppercase tracking-widest select-none mb-2 mt-1 shadow-sm flex items-center justify-between gap-1.5 hover:bg-[#E2EFFB] transition-colors focus:outline-none"
+            className="w-full text-left px-4 py-2.5 rounded-lg transition-all text-sm font-bold border-l-4 mb-1 bg-[#EDF4FB] text-[#003B5C] border-[#2774AE] hover:bg-[#E8F1F8] hover:text-[#002844] shadow-sm flex items-center justify-between gap-1.5 select-none focus:outline-none"
           >
             <span>🛠️ Lab Utilities</span>
-            {labExpanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+            {labExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
           </button>
           {labExpanded && labUtilities.map(eq => (
             <button
