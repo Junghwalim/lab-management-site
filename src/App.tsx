@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MessageSquare, ChevronRight, Share2, Check, FileDown, ChevronDown, ChevronUp } from 'lucide-react';
+import { MessageSquare, ChevronRight, Share2, Check, FileDown, ChevronDown, ChevronUp, Image as ImageIcon } from 'lucide-react';
 
 interface EquipmentDetailItem {
   label: string;
@@ -70,16 +70,33 @@ const EquipmentDetails = ({ equipmentData }: { equipmentData: Equipment }) => {
         {/* Top Section */}
         <div className="p-6 md:p-8 flex flex-col md:flex-row gap-8">
           <div className="w-full md:w-[320px] shrink-0">
-            <div className="aspect-[4/3] bg-[#EDF4FB] border border-[#D4E1EE] rounded overflow-hidden relative">
-              <img
-                src={
-                  equipmentData.imageUrl.startsWith('http')
-                    ? equipmentData.imageUrl
-                    : `${import.meta.env.BASE_URL}${equipmentData.imageUrl.replace(/^\//, '')}`
-                }
-                alt={equipmentData.title}
-                className="w-full h-full object-contain bg-gray-100"
-              />
+            <div className="aspect-[4/3] bg-[#EDF4FB] border border-[#D4E1EE] rounded overflow-hidden relative flex items-center justify-center text-[#4F6680]">
+              {equipmentData.imageUrl ? (
+                <img
+                  src={
+                    equipmentData.imageUrl.startsWith('http')
+                      ? equipmentData.imageUrl
+                      : `${import.meta.env.BASE_URL}${equipmentData.imageUrl.replace(/^\//, '')}`
+                  }
+                  alt={equipmentData.title}
+                  className="w-full h-full object-contain bg-gray-100"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    const parent = e.currentTarget.parentElement;
+                    if (parent) {
+                      const fallback = document.createElement('div');
+                      fallback.className = "flex flex-col items-center justify-center p-4 text-center text-[#4F6680]";
+                      fallback.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[#C7D8E8] mb-2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><span class="text-xs font-medium">No Image Available</span>`;
+                      parent.appendChild(fallback);
+                    }
+                  }}
+                />
+              ) : (
+                <div className="flex flex-col items-center justify-center p-4 text-center">
+                  <ImageIcon size={48} className="text-[#C7D8E8] mb-2" />
+                  <span className="text-xs font-medium">No Image Available</span>
+                </div>
+              )}
             </div>
           </div>
 
