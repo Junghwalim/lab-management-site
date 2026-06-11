@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MessageSquare, ChevronRight, Share2, Check, FileDown } from 'lucide-react';
+import { MessageSquare, ChevronRight, Share2, Check, FileDown, ChevronDown, ChevronUp } from 'lucide-react';
 
 interface EquipmentDetailItem {
   label: string;
@@ -17,7 +17,7 @@ interface Equipment {
   registrationNo: string;
   equipmentType: string;
   installationLocation: string;
-  manager: string;
+  manager: React.ReactNode;
   lastModified: string;
   details: EquipmentDetailItem[];
 }
@@ -28,7 +28,11 @@ const EquipmentDetails = ({ equipmentData }: { equipmentData: Equipment }) => {
 
   const openExternalLink = (url?: string) => {
     if (!url) return;
-    window.open(url, '_blank', 'noopener,noreferrer');
+    if (url.startsWith('mailto:')) {
+      window.location.href = url;
+    } else {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
   };
 
   const handleShare = async () => {
@@ -86,11 +90,15 @@ const EquipmentDetails = ({ equipmentData }: { equipmentData: Equipment }) => {
             </h1>
 
             <div className="grid grid-cols-[180px_1fr] gap-y-3 text-sm md:text-base">
-              <div className="text-[#4F6680] font-medium">Facility Reg. No.</div>
-              <div className="text-[#0F2740]">{equipmentData.registrationNo || '-'}</div>
+              {!["access-request", "report-issues"].includes(equipmentData.id) && (
+                <>
+                  <div className="text-[#4F6680] font-medium">Facility Reg. No.</div>
+                  <div className="text-[#0F2740]">{equipmentData.registrationNo || '-'}</div>
 
-              <div className="text-[#4F6680] font-medium">Equipment Type</div>
-              <div className="text-[#0F2740]">{equipmentData.equipmentType}</div>
+                  <div className="text-[#4F6680] font-medium">Equipment Type</div>
+                  <div className="text-[#0F2740]">{equipmentData.equipmentType}</div>
+                </>
+              )}
 
               <div className="text-[#4F6680] font-medium">Installation Location</div>
               <div className="text-[#0F2740]">{equipmentData.installationLocation}</div>
@@ -106,16 +114,18 @@ const EquipmentDetails = ({ equipmentData }: { equipmentData: Equipment }) => {
 
         {/* Action Buttons (인쇄 및 PDF 저장 시에는 숨김 처리: print:hidden) */}
         <div className="print:hidden px-6 md:px-8 pb-6 flex flex-wrap gap-3 border-b border-[#D4E1EE]">
-          <button
-            // 장비 데이터에 추가된 개별 링크(reservationLink)로 이동하도록 수정되었습니다.
-            onClick={() => {
-              openExternalLink(equipmentData.reservationLink);
-            }}
-            className="flex items-center gap-2 bg-[#2774AE] hover:bg-[#003B5C] text-white px-5 py-2.5 rounded text-sm font-medium transition-colors"
-          >
-            <MessageSquare size={16} />
-            Go to Reservation & Consultation
-          </button>
+          {equipmentData.reservationLink && equipmentData.reservationLink.trim() !== "" && (
+            <button
+              // 장비 데이터에 추가된 개별 링크(reservationLink)로 이동하도록 수정되었습니다.
+              onClick={() => {
+                openExternalLink(equipmentData.reservationLink);
+              }}
+              className="flex items-center gap-2 bg-[#2774AE] hover:bg-[#003B5C] text-white px-5 py-2.5 rounded text-sm font-medium transition-colors"
+            >
+              <MessageSquare size={16} />
+              {equipmentData.id === "access-request" ? "Request Access Approval" : "Go to Reservation & Consultation"}
+            </button>
+          )}
 
           <button
             onClick={handleShare}
@@ -173,6 +183,35 @@ export default function App() {
   // 여러 장비의 데이터를 배열(리스트) 형태로 관리합니다.
   const equipmentList: Equipment[] = [
     {
+      id: "access-request",
+      title: "Lab Access Approval Request",
+      reservationLink: "https://docs.google.com/forms/d/e/1FAIpQLSc37_01LII-MDYmz8TadI_zPgZW9IrSdescAVPHfnVefVKneg/viewform?usp=header",
+      imageUrl: "33-009.JPEG",
+      registrationNo: "-",
+      equipmentType: "Access Request",
+      installationLocation: "CHS33-009",
+      manager: (
+        <div className="space-y-1">
+          <div>Reuben Kim, D.D.S., Ph.D.</div>
+          <div>Marc Hayashi, D.M.D., M.B.A., F.A.C.D, F.I.C.D.</div>
+        </div>
+      ),
+      lastModified: "2026-06-11",
+      details: [
+        {
+          label: "Request Instruction",
+          value: "To request access approval for the laboratory, please click the 'Request Access Approval' button above to submit the request form."
+        },
+        {
+          label: "Report Issues & Suggestions",
+          value: "Please report any equipment malfunctions or laboratory issues to the administrator, or feel free to submit suggestions for laboratory improvement.",
+          hasAction: true,
+          actionText: "Here",
+          actionUrl: "https://docs.google.com/forms/d/e/1FAIpQLSceJEiaFTkzhBGJo2PRm2SuGkxaJV03-9IWNg9lMZQr7vPafQ/viewform?usp=header"
+        }
+      ]
+    },
+    {
       id: "eq-001",
       title: "Universal Testing Machine (UTM)",
       reservationLink: "https://docs.google.com/spreadsheets/d/1XFGEF8JUsyux_otqzuMrG7StoY5sHcDhni5bf3rF4ds/edit?gid=0#gid=0", // 👈 1번 장비만의 구글 폼 주소
@@ -213,6 +252,7 @@ export default function App() {
         {
           label: "Precautions", value: (
             <ul className="list-disc pl-5 space-y-1">
+              <li>Reservation Required Before Use</li>
               <li>Please note that only tensile and flexural tests are currently available</li>
               <li>Training Required Before Use</li>
               <li>A personal flash drive is required to save and transfer data</li>
@@ -260,6 +300,7 @@ export default function App() {
         {
           label: "Precautions", value: (
             <ul className="list-disc pl-5 space-y-1">
+              <li>Reservation Required Before Use</li>
               <li>Training Required Before Use</li>
               <li>A personal flash drive is required to save and transfer data</li>
             </ul>
@@ -272,7 +313,7 @@ export default function App() {
       title: "Micro Vickers Hardness Tester", // 세 번째 장비 이름
       reservationLink: "https://docs.google.com/spreadsheets/d/1dW4IFfmej9GKyFNyh0Nq_ppU3gwgqgHtScnSsQfoqqs/edit?gid=0#gid=0", // 👈 3번 장비 구글 폼 주소
       imageUrl: "https://raw.githubusercontent.com/Junghwalim/lab-management-site/main/public/Micro-Vickers-Hardness-Tester.JPEG",
-      registrationNo: "NFEC-2026-01-000111",
+      registrationNo: "",
       equipmentType: "Surface Analysis",
       installationLocation: "CHS33-009",
       manager: "",
@@ -298,6 +339,7 @@ export default function App() {
         {
           label: "Precautions", value: (
             <ul className="list-disc pl-5 space-y-1">
+              <li>Reservation Required Before Use</li>
               <li>Training Required Before Use</li>
               <li>A personal flash drive is required to save and transfer data</li>
             </ul>
@@ -346,6 +388,7 @@ export default function App() {
         {
           label: "Precautions", value: (
             <ul className="list-disc pl-5 space-y-1">
+              <li>Reservation Required Before Use</li>
               <li>Training Required Before Use</li>
               <li>A personal flash drive is required to save and transfer data</li>
             </ul>
@@ -356,7 +399,7 @@ export default function App() {
     {
       id: "eq-005",
       title: "Optical Tensiometer",
-      reservationLink: "https://forms.gle/LINK_EQ_005", // 👈 5번 장비 구글 폼 주소
+      reservationLink: "https://docs.google.com/spreadsheets/d/1k6Go6lP6y2bofY6DAhfJt1ENkIipUZ4mqF-G-J1WrJc/edit?gid=0#gid=0",
       imageUrl: "https://raw.githubusercontent.com/Junghwalim/lab-management-site/main/public/Optical-Tensiometers.JPEG",
       registrationNo: "",
       equipmentType: "Surface Analysis",
@@ -372,6 +415,7 @@ export default function App() {
         {
           label: "Precautions", value: (
             <ul className="list-disc pl-5 space-y-1">
+              <li>Reservation Required Before Use</li>
               <li>Training Required Before Use</li>
               <li>A personal flash drive is required to save and transfer data</li>
             </ul>
@@ -405,7 +449,7 @@ export default function App() {
               <li>Testing Method: Notched-edge shear testing (adheres to ISO Standard 29022)</li>
               <li>Speed Range: 0.1 to 25 mm/min (adjustable)</li>
               <li>Testing Modes: Tension and compression testing</li>
-              <li>Precision: Shear notch tolerances within < ±5 microns</li>
+              <li>Precision: Shear notch tolerances within &lt; ±5 microns</li>
             </ul>
           )
         },
@@ -418,21 +462,12 @@ export default function App() {
             </ul>
           )
         },
-        {
-          label: "Sample Preparation", value: (
-            <ul className="list-disc pl-5 space-y-1">
-              <li>Prepare dentin/enamel substrates using the specific bonding clamps and mold inserts</li>
-              <li>Cure dental composites precisely using standard mold dimensions</li>
-              <li>Securely clamp sample base in the test base holder to align shear notch before test</li>
-            </ul>
-          )
-        },
+        { label: "Sample Preparation", value: "Specimen size that can be clamped" },
         {
           label: "Precautions", value: (
             <ul className="list-disc pl-5 space-y-1">
+              <li>Reservation Required Before Use</li>
               <li>Training Required Before Use</li>
-              <li>Ensure proper alignment of crosshead to avoid peeling force instead of shear force</li>
-              <li>Do not exceed safety limits of testing accessories</li>
             </ul>
           )
         }
@@ -457,8 +492,8 @@ export default function App() {
         {
           label: "Precautions", value: (
             <ul className="list-disc pl-5 space-y-1">
+              <li>Reservation Required Before Use</li>
               <li>Training Required Before Use</li>
-              <li>A personal flash drive is required to save and transfer data</li>
             </ul>
           )
         }
@@ -467,7 +502,7 @@ export default function App() {
     {
       id: "eq-007",
       title: "ElectroForce Mechanical Test Instrument",
-      reservationLink: "https://forms.gle/LINK_EQ_007", // 👈 7번 장비 구글 폼 주소
+      reservationLink: "https://docs.google.com/spreadsheets/d/1iMy6Gq6WIuRaoGNLaGTtLC-lI6x-aTPRN4ltxPyfAXU/edit?gid=0#gid=0",
       imageUrl: "https://raw.githubusercontent.com/Junghwalim/lab-management-site/main/public/ElectroForce-Mechanical-Test-Instrument.JPEG",
       registrationNo: "",
       equipmentType: "Mechanical Testing",
@@ -504,6 +539,7 @@ export default function App() {
         {
           label: "Precautions", value: (
             <ul className="list-disc pl-5 space-y-1">
+              <li>Reservation Required Before Use</li>
               <li>Training Required Before Use</li>
               <li>A personal flash drive is required to save and transfer data</li>
             </ul>
@@ -517,7 +553,7 @@ export default function App() {
       reservationLink: "https://forms.gle/LINK_EQ_008", // 👈 8번 장비 구글 폼 주소
       imageUrl: "Shaking-Incubator.JPEG",
       registrationNo: "",
-      equipmentType: "",
+      equipmentType: "Lab Utility",
       installationLocation: "CHS33-009",
       manager: "",
       lastModified: "06-08-2026",
@@ -553,7 +589,7 @@ export default function App() {
         {
           label: "Precautions", value: (
             <ul className="list-disc pl-5 space-y-1">
-              <li>Reservation required for long-term use</li>
+              <li>Reservation required for continuous use of 24 hours or more</li>
             </ul>
           )
         }
@@ -562,10 +598,10 @@ export default function App() {
     {
       id: "eq-009",
       title: "Wet Trimmer",
-      reservationLink: "https://forms.gle/LINK_EQ_009", // 👈 9번 장비 구글 폼 주소
+      reservationLink: "", // 👈 9번 장비 구글 폼 주소
       imageUrl: "Wet-Trimer.JPEG",
       registrationNo: "",
-      equipmentType: "",
+      equipmentType: "Lab Utility",
       installationLocation: "CHS33-009",
       manager: "",
       lastModified: "06-08-2026",
@@ -603,10 +639,10 @@ export default function App() {
     {
       id: "eq-010",
       title: "Vortex Mixer",
-      reservationLink: "https://forms.gle/LINK_EQ_010", // 👈 10번 장비 구글 폼 주소
+      reservationLink: "", // 👈 10번 장비 구글 폼 주소
       imageUrl: "Vortex-Mixer.JPEG",
       registrationNo: "",
-      equipmentType: "",
+      equipmentType: "Lab Utility",
       installationLocation: "CHS33-009",
       manager: "",
       lastModified: "06-08-2026",
@@ -643,10 +679,10 @@ export default function App() {
     {
       id: "eq-011",
       title: "Hot Plate Stirrer",
-      reservationLink: "https://forms.gle/LINK_EQ_011", // 👈 11번 장비 구글 폼 주소
+      reservationLink: "", // 👈 11번 장비 구글 폼 주소
       imageUrl: "Hot-Plate-Stirrer.JPEG",
       registrationNo: "",
-      equipmentType: "",
+      equipmentType: "Lab Utility",
       installationLocation: "CHS33-009",
       manager: "",
       lastModified: "06-08-2026",
@@ -685,10 +721,10 @@ export default function App() {
     {
       id: "eq-012",
       title: "Scale",
-      reservationLink: "https://forms.gle/LINK_EQ_012", // 👈 12번 장비 구글 폼 주소
+      reservationLink: "", // 👈 12번 장비 구글 폼 주소
       imageUrl: "Scale.JPEG",
       registrationNo: "",
-      equipmentType: "",
+      equipmentType: "Lab Utility",
       installationLocation: "CHS33-009",
       manager: "",
       lastModified: "06-08-2026",
@@ -731,10 +767,10 @@ export default function App() {
     {
       id: "eq-013",
       title: "Low Speed Saw",
-      reservationLink: "https://forms.gle/LINK_EQ_013", // 👈 13번 장비 구글 폼 주소
+      reservationLink: "", // 👈 13번 장비 구글 폼 주소
       imageUrl: "Low-Speed-Saw.JPEG",
       registrationNo: "",
-      equipmentType: "",
+      equipmentType: "Lab Utility",
       installationLocation: "CHS33-009",
       manager: "",
       lastModified: "06-08-2026",
@@ -773,11 +809,11 @@ export default function App() {
     },
     {
       id: "eq-014",
-      title: "Trim-Saw",
-      reservationLink: "https://forms.gle/LINK_EQ_014", // 👈 14번 장비 구글 폼 주소
+      title: "Trim Saw",
+      reservationLink: "", // 👈 14번 장비 구글 폼 주소
       imageUrl: "Trim-Saw.JPEG",
       registrationNo: "",
-      equipmentType: "",
+      equipmentType: "Lab Utility",
       installationLocation: "CHS33-009",
       manager: "",
       lastModified: "06-08-2026",
@@ -810,10 +846,10 @@ export default function App() {
     {
       id: "eq-015",
       title: "Vacuum Plasma Surface Activator",
-      reservationLink: "https://forms.gle/LINK_EQ_015", // 👈 15번 장비 구글 폼 주소
+      reservationLink: "", // 👈 15번 장비 구글 폼 주소
       imageUrl: "Vacuum-Plasma-Surface-Activator.JPEG",
       registrationNo: "",
-      equipmentType: "",
+      equipmentType: "Lab Utility",
       installationLocation: "CHS33-009",
       manager: "",
       lastModified: "06-08-2026",
@@ -854,10 +890,10 @@ export default function App() {
     {
       id: "eq-016",
       title: "Plasma Sterilizer",
-      reservationLink: "https://forms.gle/LINK_EQ_016", // 👈 16번 장비 구글 폼 주소
+      reservationLink: "", // 👈 16번 장비 구글 폼 주소
       imageUrl: "Plasma-Sterilizer.JPEG",
       registrationNo: "",
-      equipmentType: "",
+      equipmentType: "Lab Utility",
       installationLocation: "CHS33-009",
       manager: "",
       lastModified: "06-08-2026",
@@ -898,10 +934,10 @@ export default function App() {
     {
       id: "eq-017",
       title: "Dental curing Light (Wired)",
-      reservationLink: "https://forms.gle/LINK_EQ_017", // 👈 17번 장비 구글 폼 주소
+      reservationLink: "", // 👈 17번 장비 구글 폼 주소
       imageUrl: "Wired-Curing-Light.JPEG",
       registrationNo: "",
-      equipmentType: "",
+      equipmentType: "Lab Utility",
       installationLocation: "CHS33-009",
       manager: "",
       lastModified: "06-08-2026",
@@ -916,10 +952,10 @@ export default function App() {
     {
       id: "eq-018",
       title: "Dental curing Light (Wireless)",
-      reservationLink: "https://forms.gle/LINK_EQ_018", // 👈 18번 장비 구글 폼 주소
+      reservationLink: "", // 👈 18번 장비 구글 폼 주소
       imageUrl: "Wireless-Curing-Light.JPEG",
       registrationNo: "",
-      equipmentType: "",
+      equipmentType: "Lab Utility",
       installationLocation: "CHS33-009",
       manager: "",
       lastModified: "06-08-2026",
@@ -957,10 +993,10 @@ export default function App() {
     {
       id: "eq-019",
       title: "Dust Collector",
-      reservationLink: "https://forms.gle/LINK_EQ_019", // 👈 19번 장비 구글 폼 주소
+      reservationLink: "", // 👈 19번 장비 구글 폼 주소
       imageUrl: "Dust-Collector.JPEG",
       registrationNo: "",
-      equipmentType: "",
+      equipmentType: "Lab Utility",
       installationLocation: "CHS33-009",
       manager: "",
       lastModified: "06-08-2026",
@@ -974,11 +1010,11 @@ export default function App() {
     },
     {
       id: "eq-020",
-      title: "Biological-Indicator-Auto-reader",
-      reservationLink: "https://forms.gle/LINK_EQ_020", // 👈 20번 장비 구글 폼 주소
+      title: "Biological Indicator Auto Reader",
+      reservationLink: "", // 👈 20번 장비 구글 폼 주소
       imageUrl: "Biological-Indicator-Auto-reader.JPEG",
       registrationNo: "",
-      equipmentType: "",
+      equipmentType: "Lab Utility",
       installationLocation: "CHS33-009",
       manager: "",
       lastModified: "06-08-2026",
@@ -1012,19 +1048,79 @@ export default function App() {
         },
         { label: "Precautions", value: "" }
       ]
+    },
+    {
+      id: "eq-022",
+      title: "Torque Tester",
+      reservationLink: "",
+      imageUrl: "",
+      registrationNo: "",
+      equipmentType: "Mechanical Testing",
+      installationLocation: "CHS33-009",
+      manager: "",
+      lastModified: "2026-06-11",
+      details: [
+        { label: "Manufacturer | Model", value: "", hasAction: false },
+        { label: "Introduction", value: "" },
+        { label: "Specifications", value: "" },
+        { label: "Applications", value: "" },
+        { label: "Sample Preparation", value: "" },
+        { label: "Precautions", value: "" }
+      ]
+    },
+    {
+      id: "eq-023",
+      title: "Refrigerator",
+      reservationLink: "",
+      imageUrl: "Refrigerator.JPEG",
+      registrationNo: "",
+      equipmentType: "Lab Utility",
+      installationLocation: "CHS33-009",
+      manager: "",
+      lastModified: "2026-06-11",
+      details: [
+        { label: "Manufacturer | Model", value: "", hasAction: false },
+        { label: "Introduction", value: "" },
+        { label: "Specifications", value: "" },
+        { label: "Applications", value: "" },
+        { label: "Sample Preparation", value: "" },
+        { label: "Precautions", value: "" }
+      ]
     }
   ];
 
   // 현재 선택된 장비의 ID를 저장하는 상태 (기본값은 첫 번째 장비의 ID)
   const [selectedId, setSelectedId] = useState(equipmentList[0].id);
+  const [analyticalExpanded, setAnalyticalExpanded] = useState(true);
+  const [labExpanded, setLabExpanded] = useState(true);
 
   // 1. 카테고리 분류
-  const analyticalSystems = equipmentList.filter(eq =>
-    ["eq-001", "eq-002", "eq-003", "eq-004", "eq-005", "eq-006", "eq-007"].includes(eq.id)
-  );
-  const labUtilities = equipmentList.filter(eq =>
-    !["eq-001", "eq-002", "eq-003", "eq-004", "eq-005", "eq-006", "eq-007"].includes(eq.id)
-  );
+  const topItems = equipmentList.filter(eq => eq.id === "access-request");
+
+  const analyticalOrder = ["eq-001", "eq-007", "eq-003", "eq-002", "eq-005", "eq-004", "eq-022", "eq-021", "eq-006"];
+  const analyticalSystems = equipmentList
+    .filter(eq => analyticalOrder.includes(eq.id))
+    .sort((a, b) => analyticalOrder.indexOf(a.id) - analyticalOrder.indexOf(b.id));
+
+  const labOrder = [
+    "eq-008",
+    "eq-015",
+    "eq-010",
+    "eq-011",
+    "eq-012",
+    "eq-018",
+    "eq-017",
+    "eq-009",
+    "eq-013",
+    "eq-014",
+    "eq-023",
+    "eq-019",
+    "eq-016",
+    "eq-020"
+  ];
+  const labUtilities = equipmentList
+    .filter(eq => !analyticalOrder.includes(eq.id) && eq.id !== "access-request")
+    .sort((a, b) => labOrder.indexOf(a.id) - labOrder.indexOf(b.id));
 
   // 선택된 장비의 전체 데이터를 찾습니다.
   const currentEquipment = equipmentList.find(eq => eq.id === selectedId) || equipmentList[0];
@@ -1041,6 +1137,9 @@ export default function App() {
           onChange={(e) => setSelectedId(e.target.value)}
           className="w-full border border-[#C7D8E8] rounded-md p-3 text-[#0F2740] bg-white font-medium focus:outline-none focus:ring-2 focus:ring-[#FFD100]"
         >
+          {topItems.map(eq => (
+            <option key={eq.id} value={eq.id} className="text-[#0F2740] font-semibold bg-[#EDF4FB]">📋 {eq.title}</option>
+          ))}
           <optgroup label="📊 Analytical Systems" className="bg-[#EDF4FB] text-[#003B5C] font-semibold">
             {analyticalSystems.map(eq => (
               <option key={eq.id} value={eq.id} className="bg-white text-[#0F2740] font-normal">{eq.title}</option>
@@ -1057,15 +1156,32 @@ export default function App() {
       {/* 2. PC용 사이드바 메뉴 (화면이 클 때만 왼쪽에 고정됨, 인쇄 시 숨김) */}
       <div className="hidden md:flex print:hidden flex-col w-64 lg:w-72 bg-[#F7FAFD] border-r border-[#C7D8E8] h-screen sticky top-0 overflow-y-auto shrink-0">
         <div className="p-6 border-b border-[#C7D8E8] bg-[#003B5C]">
-          <h2 className="font-bold text-white text-lg">Equipment List</h2>
+          <h2 className="font-bold text-white text-lg">Restorative Lab</h2>
           <p className="text-sm text-[#FFD100] mt-1">Total {equipmentList.length} items</p>
         </div>
         <div className="flex flex-col p-3 gap-1">
+          {topItems.map(eq => (
+            <button
+              key={eq.id}
+              onClick={() => setSelectedId(eq.id)}
+              className={`text-left px-4 py-2.5 rounded-lg transition-all text-sm font-medium border-l-4 mb-1 ${selectedId === eq.id
+                ? 'bg-[#2774AE] text-white shadow-md border-[#FFD100]'
+                : 'bg-[#EDF4FB] text-[#003B5C] border-l-4 border-[#2774AE] hover:bg-[#E8F1F8] hover:text-[#002844]'
+                }`}
+            >
+              📋 {eq.title}
+            </button>
+          ))}
+
           {/* Analytical Systems */}
-          <div className="text-[11px] font-extrabold text-[#003B5C] px-3 py-1.5 bg-[#EDF4FB] border-l-4 border-[#2774AE] rounded-r-md uppercase tracking-widest select-none mb-2 mt-1 shadow-sm flex items-center gap-1.5">
+          <button
+            onClick={() => setAnalyticalExpanded(!analyticalExpanded)}
+            className="w-full text-left text-[11px] font-extrabold text-[#003B5C] px-3 py-1.5 bg-[#EDF4FB] border-l-4 border-[#2774AE] rounded-r-md uppercase tracking-widest select-none mb-2 mt-1 shadow-sm flex items-center justify-between gap-1.5 hover:bg-[#E2EFFB] transition-colors focus:outline-none"
+          >
             <span>📊 Analytical Systems</span>
-          </div>
-          {analyticalSystems.map(eq => (
+            {analyticalExpanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+          </button>
+          {analyticalExpanded && analyticalSystems.map(eq => (
             <button
               key={eq.id}
               onClick={() => setSelectedId(eq.id)}
@@ -1079,10 +1195,14 @@ export default function App() {
           ))}
 
           {/* Lab Utilities */}
-          <div className="text-[11px] font-extrabold text-[#003B5C] px-3 py-1.5 bg-[#EDF4FB] border-l-4 border-[#2774AE] rounded-r-md uppercase tracking-widest select-none mb-2 mt-6 shadow-sm flex items-center gap-1.5">
+          <button
+            onClick={() => setLabExpanded(!labExpanded)}
+            className="w-full text-left text-[11px] font-extrabold text-[#003B5C] px-3 py-1.5 bg-[#EDF4FB] border-l-4 border-[#2774AE] rounded-r-md uppercase tracking-widest select-none mb-2 mt-1 shadow-sm flex items-center justify-between gap-1.5 hover:bg-[#E2EFFB] transition-colors focus:outline-none"
+          >
             <span>🛠️ Lab Utilities</span>
-          </div>
-          {labUtilities.map(eq => (
+            {labExpanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+          </button>
+          {labExpanded && labUtilities.map(eq => (
             <button
               key={eq.id}
               onClick={() => setSelectedId(eq.id)}
