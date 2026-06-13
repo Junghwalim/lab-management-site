@@ -443,7 +443,7 @@ export default function App() {
     {
       id: "eq-021",
       title: "Shear Bond Tester",
-      reservationLink: "https://forms.gle/LINK_EQ_021", // 👈 21번 장비 구글 폼 주소
+      reservationLink: "https://docs.google.com/spreadsheets/d/1oQZkLYR0iR6sti4KV0hyXk6mQ966hubVyQ4QGE9YJ4E/edit?gid=0#gid=0", // 👈 21번 장비 구글 폼 주소
       imageUrl: "Shear-Bond-Tester.JPEG",
       registrationNo: "",
       equipmentType: "Mechanical Testing",
@@ -493,7 +493,7 @@ export default function App() {
     {
       id: "eq-006",
       title: "Micro Tensile Tester",
-      reservationLink: "https://forms.gle/LINK_EQ_006", // 👈 6번 장비 구글 폼 주소
+      reservationLink: "https://docs.google.com/spreadsheets/d/1M4-FO31841j6NrNPKY-tLvmVy671GiRH9-EAR881qrE/edit?gid=0#gid=0", // 👈 6번 장비 구글 폼 주소
       imageUrl: "https://raw.githubusercontent.com/Junghwalim/lab-management-site/main/public/Micro-Tensile-Tester.JPEG",
       registrationNo: "",
       equipmentType: "Mechanical Testing",
@@ -567,7 +567,7 @@ export default function App() {
     {
       id: "eq-008",
       title: "Shaking Incubator",
-      reservationLink: "https://forms.gle/LINK_EQ_008", // 👈 8번 장비 구글 폼 주소
+      reservationLink: "https://docs.google.com/spreadsheets/d/16lyzzPm_NtaIJxKLsTKKEanSSAYPfKUkkwBY1gPTy0M/edit?gid=0#gid=0", // 👈 8번 장비 구글 폼 주소
       imageUrl: "Shaking-Incubator.JPEG",
       registrationNo: "",
       equipmentType: "Lab Utility",
@@ -1069,7 +1069,7 @@ export default function App() {
     {
       id: "eq-022",
       title: "Torque Tester",
-      reservationLink: "",
+      reservationLink: "https://docs.google.com/spreadsheets/d/1bYdJSqCU_mJ4oxB6JP_1UDPMgAratxzO5jChyiRtMXQ/edit?gid=0#gid=0",
       imageUrl: "",
       registrationNo: "",
       equipmentType: "Mechanical Testing",
